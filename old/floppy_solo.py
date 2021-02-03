@@ -100,7 +100,7 @@ for i in range(2,tall,2): #on commence a la ligne 3 du doc car la ligne 1 est la
 			note=16*note0+14
 		elif note1=="F":
 			note=16*note0+15
-	print note,dur
+	print(note,dur)
 	note = float(note - 48) #note est un  int, et bloque le calcul suivant qui est flottant, et on la réajuste, pour éviter des notes trop aigües
 	freq = 32.7*pow(2,(note/12)) #on détermine en calculant la fréquence de la note en fonction de sa valeur
 	freq = 1/freq
@@ -134,7 +134,7 @@ for i in range(2,tall,2): #on commence a la ligne 3 du doc car la ligne 1 est la
 			pause = int(l[i0][3]+l[i0][4]+l[i0][5]+l[i0][6]+l[i0][7])
 		else:
 			print ("Erreur, fichier invalide, revoir la longueur des notes")
-		print pause
+		print(pause)
 	pause = float(pause)
 	pause=(pause/spdpause)#on retravaille pause, car les valeurs données ne conviennent pas 375-1000
 	time.sleep(pause) #arret entre deux notes
