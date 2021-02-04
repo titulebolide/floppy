@@ -78,7 +78,7 @@ def run(input, transpose):
     global floppylist
     global port
 
-    if input="":
+    if input=="":
         print('The input is empty. Please enter either a MIDI file or a MIDI port')
         print('The available midi ports are:')
         for portname in mido.get_input_names():
@@ -87,7 +87,7 @@ def run(input, transpose):
 
     print("[Opening the input]")
     if input.endswith('.mid'):
-        port = midifiles.MidiFile(input)
+        port = mido.midifiles.MidiFile(input)
     else:
         port = mido.open_input(input)
 
@@ -99,7 +99,7 @@ def run(input, transpose):
 
     # Mainloop
     print("[Marche]")
-    for event in inport:
+    for event in port:
         if not event.type in ('note_on', 'note_off'):
             continue
         print(event)

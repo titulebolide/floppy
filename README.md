@@ -1,5 +1,5 @@
-# FlopPy
-Play music on floppy drivers with a raspberry pi!
+# [WIP] Flop-Pi
+Play music on floppy drivers with a raspberry pi, written both in Python and C++
 
 ## Installation
 In order not to have the script running as superuser, add yourself to the `sudo` and `gpio` groups:
