@@ -11,7 +11,7 @@ GPIO.setwarnings(False)
 
 # Structure des branchements
 # liste des couples, channel(quel est le channel joué sur ce floppy), pindir, pinstep pour tous les floppy connectés
-floppypin = [(0, 12, 16)]
+floppypin = [(0, 16, 12), (0,22,18), (0,11,7)]
 floppylist=[]
 port = None
 # Définition du thread floppy. Fait une note lorsque self.playnote = True
@@ -78,6 +78,8 @@ def run(input, transpose):
     global floppylist
     global port
 
+    notes = [0]*len(floppypin)
+
     if input=="":
         print('The input is empty. Please enter either a MIDI file or a MIDI port')
         print('The available midi ports are:')
@@ -104,12 +106,19 @@ def run(input, transpose):
             continue
         print(event)
         time.sleep(event.time)
-        nofloppy = [p[0] for p in floppypin].index(event.channel)
-        f = floppylist[nofloppy]
-        if event.velocity==0 and f.note==event.note:
-            f.stopNote()
-        elif event.velocity>0:
-            f.startNote(event.note)
+
+        if event.velocity == 0:
+            for nofloppy, note in enumerate(notes):
+                if note == event.note:
+                    floppylist[nofloppy].stopNote()
+                    notes[nofloppy] = 0
+                    break
+        else:
+            for nofloppy, note in enumerate(notes):
+                if note == 0:
+                    floppylist[nofloppy].startNote(event.note)
+                    notes[nofloppy] = event.note
+                    break
     kill()
 
 

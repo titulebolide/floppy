@@ -22,12 +22,11 @@ vector<Floppy> floppies = {
 vector<int> notes(floppies.size(), 0);
 
 void callback (double timeStamp, vector< unsigned char > *msg, void *userData) {
-	int chan = (*msg)[0] & 0xf;
+	int type = (*msg)[0];
 	int note =  (*msg)[1];
 	int velocity =  (*msg)[2];
 
-
-	if (velocity == 0) {
+	if ((type == 144 && velocity == 0) || type == 128) {
 		for (size_t nofloppy = 0; nofloppy < floppies.size(); nofloppy++) {
 			if (notes[nofloppy] == note) { // note is currently played
 				floppies[nofloppy].stopNote();
@@ -35,7 +34,7 @@ void callback (double timeStamp, vector< unsigned char > *msg, void *userData) {
 				break; //there should not be any other playing floppy
 			}
 		}
-	} else {
+	} else if (type == 144) {
 		for (size_t nofloppy = 0; nofloppy < floppies.size(); nofloppy++) {
 			if (notes[nofloppy] == 0) {
 				floppies[nofloppy].startNote(note);
@@ -45,7 +44,7 @@ void callback (double timeStamp, vector< unsigned char > *msg, void *userData) {
 		}
 	}
 
-	cout << to_string(chan) << "," << to_string(note) << "," << to_string(velocity) << endl;
+	cout << to_string(type) << "," << to_string(note) << "," << to_string(velocity) << endl;
 }
 
 
